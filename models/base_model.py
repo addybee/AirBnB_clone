@@ -3,7 +3,7 @@
 
 from datetime import datetime
 import uuid
-from models import storage
+"from models import storage"
 
 
 class BaseModel:
@@ -22,14 +22,13 @@ class BaseModel:
                 if key == "__class__":
                     continue;
                 if key == "updated_at" or key == "created_at":
-                    self.__dict__[key] = datetime.fromisoformat(kwargs[key])
-                else:
-                    self.__dict__[key] = kwargs[key]
-        else:
-            self.id = str(uuid.uuid4())
-            self.created_at = datetime.now()
-            self.updated_at = datetime.now()
-            storage.new(self)
+                    value = datetime.fromisoformat(value)
+                setattr(self, key, value)
+            return
+        self.id = str(uuid.uuid4())
+        self.created_at = datetime.now()
+        self.updated_at = datetime.now()
+        """storage.new(self)"""
 
     def __str__(self):
         """
@@ -43,7 +42,7 @@ class BaseModel:
         Updates the public instance attribute updated_at with the current
         datetime.
         """
-        storage.save()
+        """storage.save()"""
         self.updated_at = datetime.now()
 
     def to_dict(self):

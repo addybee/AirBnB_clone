@@ -20,7 +20,7 @@ class FileStorage:
 
     def new(self, obj):
         """ sets in __objects the obj with key <obj class name>.id """
-        key = f"{type(obj)}.{obj.id}"
+        key = f"{type(obj).__name__}.{obj.id}"
         FileStorage.__objects[key] = obj.to_dict()
 
     def save(self):
@@ -32,11 +32,15 @@ class FileStorage:
         """ deserializes the JSON file to __objects """
         try:
             with open(self.__file_path, "r", encoding="utf-8") as f:
-                FileStorage.__objects = json.load(f)
-                for key, val in self.__objects.items():
+                sd = json.load(f)
+                print("Inside reload")
+                print(sd)
+                for key, val in sd.items():
+                    print("Inside loop")
                     class_name = key.split(".")[0]
                     obj_class = getattr(base_model, class_name)
                     obj = obj_class(**val)
                     self.new(obj)
+            print("Outside the loop")
         except FileNotFoundError:
             pass
