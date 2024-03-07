@@ -83,16 +83,18 @@ class HBNBCommand(cmd.Cmd):
         class name.
         """
         db = storage.all()
+        list_all = []
         if not args:
             for obj in db.values():
-                print(obj)
+                list_all.append(str(obj))
         else:
             if args not in self.list_of_classes:
                 print("** class doesn't exist **")
             else:
                 for key, val in db.items():
                     if key.split(".")[0] == args:
-                        print(val)
+                        list_all.append(str(val))
+        print(list_all)
 
     def do_update(self, args):
         """
