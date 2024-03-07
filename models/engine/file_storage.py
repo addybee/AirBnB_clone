@@ -3,7 +3,7 @@
     deserializes JSON file to instances
 """
 
-from models import base_model
+from models.base_model import BaseModel
 import json
 
 
@@ -21,26 +21,22 @@ class FileStorage:
     def new(self, obj):
         """ sets in __objects the obj with key <obj class name>.id """
         key = f"{type(obj).__name__}.{obj.id}"
-        FileStorage.__objects[key] = obj.to_dict()
+        FileStorage.__objects[key] = obj
 
     def save(self):
         """ serializes __objects to the JSON file """
+        json_obj = {key: val.to_dict() for key, val in self.__objects.items()}
         with open(self.__file_path, "w", encoding="utf-8") as f:
-            json.dump({key: val for key, val in self.__objects.items()}, f)
+            json.dump(json_obj, f)
 
     def reload(self):
         """ deserializes the JSON file to __objects """
         try:
             with open(self.__file_path, "r", encoding="utf-8") as f:
                 sd = json.load(f)
-                print("Inside reload")
-                print(sd)
                 for key, val in sd.items():
-                    print("Inside loop")
-                    class_name = key.split(".")[0]
-                    obj_class = getattr(base_model, class_name)
-                    obj = obj_class(**val)
-                    self.new(obj)
-            print("Outside the loop")
+                    class_name = globals()[key.split(".")[0]]
+                    obj = class_name(**val)
+                    FileStorage.__objects[key] = obj
         except FileNotFoundError:
             pass
