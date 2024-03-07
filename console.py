@@ -4,6 +4,7 @@ import cmd
 from models.base_model import BaseModel
 from models import storage
 from re import search
+from models.user import User
 
 
 
@@ -12,7 +13,7 @@ class HBNBCommand(cmd.Cmd):
     
     prompt = '(hbnb) '
     file_path = 'file.json'
-    list_of_classes = ["BaseModel", "FileStorage"]
+    list_of_classes = ["BaseModel", "User"]
 
     def do_create(self, args):
         """
