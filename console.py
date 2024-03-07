@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
 
+
 import cmd
 from models.base_model import BaseModel
 from models import storage
 from re import search
 from models.user import User
-
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 
 class HBNBCommand(cmd.Cmd):
@@ -13,7 +18,8 @@ class HBNBCommand(cmd.Cmd):
     
     prompt = '(hbnb) '
     file_path = 'file.json'
-    list_of_classes = ["BaseModel", "User"]
+    list_of_classes = ["BaseModel", "User", "State", "City", "Amenity", "Place",
+                       "Review"]
 
     def do_create(self, args):
         """
