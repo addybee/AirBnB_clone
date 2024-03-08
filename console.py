@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 
 
 import cmd
@@ -15,11 +15,11 @@ from models.review import Review
 
 class HBNBCommand(cmd.Cmd):
     """Defines a command processor."""
-    
+
     prompt = '(hbnb) '
     file_path = 'file.json'
-    list_of_classes = ["BaseModel", "User", "State", "City", "Amenity", "Place",
-                       "Review"]
+    list_of_classes = ["BaseModel", "User", "State", "City",
+                       "Amenity", "Place", "Review"]
 
     def do_create(self, args):
         """
@@ -130,9 +130,6 @@ class HBNBCommand(cmd.Cmd):
             setattr(db[key], args[2], args[3])
             db[key].save()
 
-
-
-
     def do_EOF(self, line):
         """
         Hook method that will be called when the user enters the end-of-file
@@ -151,6 +148,19 @@ class HBNBCommand(cmd.Cmd):
     def postloop(self):
         """ print a newline character """
         pass
+
+    def cmdloop(self):
+        try:
+                super().cmdloop()
+        except KeyboardInterrupt:
+                print("^D")   # Handle Ctrl+D gracefully
+    
+    def completedefault(self, text, line, begidx, endidx):
+        """Provide completion suggestions for unrecognized commands."""
+        commands = ['create', 'quit', 'help', 'show', 'destroy', 'update',
+                    'all']  # List of known commands
+        # Filter commands based on the prefix 'text'
+        return [cmd for cmd in commands if cmd.startswith(text)]
 
 
 if __name__ == '__main__':
