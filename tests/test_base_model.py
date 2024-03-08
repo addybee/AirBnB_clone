@@ -6,6 +6,7 @@ This is the test suit for the AirBnB class BaseModel.
 
 import unittest
 from models.base_model import BaseModel
+from models.engine.file_storage import FileStorage
 from datetime import datetime
 
 class TestBaseModel(unittest.TestCase):
@@ -70,4 +71,24 @@ class TestBaseModel(unittest.TestCase):
         self.assertIn('created_at', model_dict_repr)
         self.assertIn('updated_at', model_dict_repr)
         self.assertTrue(any(isinstance(model_dict_repr[key], str)
-                            for key in ['created_at', 'updated_at']))        
+                            for key in ['created_at', 'updated_at']))
+
+
+class TestFileStorage(unittest.TestCase):
+    """Unit tests for FileStorage class"""
+
+    def setUp():
+        self.storage = FileStorage()
+
+    def test_fileStorageMethods(self):
+        objects = self.storage.all()
+        self.assertIsInstance(objects, dict)
+
+    def test_fileStorageInstance(self):
+        self.assertIsInstance(self.storage, FileStorage)
+        self.assertEqual(self.storage._FileStorage__file_path, "file.json")
+        self.assertIsInstance(self.storage._FileStorage__objects, dict)
+
+
+if __name__ == "__main__":
+    unittest.main()
