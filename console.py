@@ -151,10 +151,10 @@ class HBNBCommand(cmd.Cmd):
 
     def cmdloop(self):
         try:
-                super().cmdloop()
+            super().cmdloop()
         except KeyboardInterrupt:
-                print("^D")   # Handle Ctrl+D gracefully
-    
+            print("^D")   # Handle Ctrl+D gracefully
+
     def completedefault(self, text, line, begidx, endidx):
         """Provide completion suggestions for unrecognized commands."""
         commands = ['create', 'quit', 'help', 'show', 'destroy', 'update',

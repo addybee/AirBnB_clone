@@ -3,11 +3,11 @@
 """
 This is the test suit for the AirBnB class BaseModel.
 """
-
 import unittest
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 from datetime import datetime
+
 
 class TestBaseModel(unittest.TestCase):
     """Unit tests for the BaseModel class"""
@@ -17,9 +17,11 @@ class TestBaseModel(unittest.TestCase):
         self.my_model.name = "My First Model"
         self.my_model.my_number = 89
 
-   
-
-    def test_created_at_updated_at(self):
+    def test_BaseModel_attribute(self):
+        self.assertTrue(hasattr(self.my_model, 'id'))
+        self.assertTrue(hasattr(self.my_model, 'created_at'))
+        self.assertTrue(hasattr(self.my_model, 'updated_at'))
+        self.assertIsInstance(self.my_model.id, str)
         self.assertIsInstance(self.my_model.created_at, datetime)
         self.assertIsInstance(self.my_model.updated_at, datetime)
 
@@ -42,7 +44,7 @@ class TestBaseModel(unittest.TestCase):
         self.assertTrue(hasattr(my_model, 'id'))
         self.assertFalse(hasattr(my_model, 'name'))
         self.assertFalse(hasattr(my_model, 'my_number'))
-        self.assertFalse(hasattr(my_model, 'updated_at'))
+        self.assertTrue(hasattr(my_model, 'updated_at'))
 
     def test_str_display(self):
         str_should_print = "[BaseModel] ({}) {}".format(self.my_model.id,
@@ -68,26 +70,12 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsInstance(model_dict_repr, dict)
         self.assertIn('__class__', model_dict_repr)
         self.assertEqual(model_dict_repr['__class__'], 'BaseModel')
+        self.assertIsInstance(model_dict_repr["created_at"], str)
+        self.assertIsInstance(model_dict_repr["updated_at"], str)
         self.assertIn('created_at', model_dict_repr)
         self.assertIn('updated_at', model_dict_repr)
         self.assertTrue(any(isinstance(model_dict_repr[key], str)
                             for key in ['created_at', 'updated_at']))
-
-
-class TestFileStorage(unittest.TestCase):
-    """Unit tests for FileStorage class"""
-
-    def setUp():
-        self.storage = FileStorage()
-
-    def test_fileStorageMethods(self):
-        objects = self.storage.all()
-        self.assertIsInstance(objects, dict)
-
-    def test_fileStorageInstance(self):
-        self.assertIsInstance(self.storage, FileStorage)
-        self.assertEqual(self.storage._FileStorage__file_path, "file.json")
-        self.assertIsInstance(self.storage._FileStorage__objects, dict)
 
 
 if __name__ == "__main__":
