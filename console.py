@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+"""
+describe the class that contains the entry point of the command interpreter
+"""
 
 
 import cmd
