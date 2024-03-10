@@ -149,12 +149,12 @@ class HBNBCommand(cmd.Cmd):
         """ print a newline character """
         pass
 
-    def cmdloop(self):
+    """ def cmdloop(self):
         """ entry_point to the interpreter """
         try:
             super().cmdloop()
         except KeyboardInterrupt:
-            print("^D")   # Handle Ctrl+D gracefully
+            print("^D")   # Handle Ctrl+D gracefully """
 
     def completedefault(self, text, line, begidx, endidx):
         """Provide completion suggestions for unrecognized commands."""
