@@ -15,6 +15,17 @@ from models.place import Place
 from models.review import Review
 
 
+class_dict = {
+        "BaseModel": BaseModel,
+        "User": User,
+        "State": State,
+        "City": City,
+        "Amenity": Amenity,
+        "Place": Place,
+        "Review": Review
+        }
+
+
 class FileStorage:
     """ serializes instances to a JSON file and deserializes JSON file to
     instances """
@@ -45,6 +56,6 @@ class FileStorage:
             with open(self.__file_path, "r", encoding="utf-8") as f:
                 result = json.load(f)
             for key, val in result.items():
-                class_name = globals()[key.split(".")[0]]
+                class_name = class_dict[key.split(".")[0]]
                 obj = class_name(**val)
                 FileStorage.__objects[key] = obj
