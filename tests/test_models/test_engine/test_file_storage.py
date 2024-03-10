@@ -12,7 +12,7 @@ class TestFileStorage(unittest.TestCase):
 
     def setUp(self):
         """Set up for testing FileStorage"""
-        self.file_path = "test_file.json"
+        self.file_path = "file.json"
         self.storage = FileStorage()
 
     def tearDown(self):
@@ -42,14 +42,14 @@ class TestFileStorage(unittest.TestCase):
     def test_fileStorageInstance(self):
         """Test if private instance class exits in FileStorage"""
         self.assertIsInstance(self.storage, FileStorage)
-        self.assertEqual(self.storage._FileStorage__file_path, "test_file.json")
+        self.assertEqual(self.storage._FileStorage__file_path, "file.json")
         self.assertIsInstance(self.storage._FileStorage__objects, dict)
 
     def test_new_fileStorageMethod(self):
         """Test if newly created objects sets the private object correctly"""
         my_model = BaseModel()
         self.storage.new(my_model)
-        obj_key = "{} {}".format(type(my_model).__name__, my_model.id)
+        obj_key = "{}.{}".format(type(my_model).__name__, my_model.id)
         self.assertIn(obj_key, self.storage._FileStorage__objects)
 
     def test_serialised_json_obj(self):
@@ -69,20 +69,20 @@ class TestFileStorage(unittest.TestCase):
         """
         storage = FileStorage()
         obj = BaseModel()
+        key = f"BaseModel.{obj.id}"
         storage.new(obj)
         storage.save()
-        storage._FileStorage__objects = {}
-
-        storage.reload()
-
-        self.assertIn("BaseModel." + obj.id, storage._FileStorage__objects)
+        storage1 = FileStorage()
+        storage1.reload()
+        self.assertIn(key, storage1._FileStorage__objects)
+        self.assertDictEqual(storage.all(), storage1.all())
 
     def test_reloadActionOn_File_Inexistence(self):
-        """Test if reload doesn't perform any action if file doesn't exixts"""
+        """Test if reload doesn't perform any action if file doesn't exists"""
         storage = FileStorage()
         if os.path.exists(storage._FileStorage__file_path):
             os.remove(storage._FileStorage__file_path)
-
+        storage._FileStorage__objects = {}
         storage.reload()
         self.assertDictEqual(storage.all(), {})
 
