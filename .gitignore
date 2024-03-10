@@ -1,0 +1,7 @@
+file.json
+test_*
+__pycache__/
+models/__pycache__/
+models/engine/__pycache__/
+tests/test_models/__pycache__/
+tests/test_models/test_engines/tests/test_models/__pycache__/
