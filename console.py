@@ -115,6 +115,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             if args not in class_dict.keys():
                 print("** class doesn't exist **")
+                return
             else:
                 for key, val in db.items():
                     if key.split(".")[0] == args:
@@ -154,6 +155,36 @@ class HBNBCommand(cmd.Cmd):
 
             setattr(db[key], args[2], args[3])
             db[key].save()
+
+    def do_count(self, args):
+        """
+        retrieve the number of instances of a class
+        usage:
+            <class name>.count()
+        """
+        if not args:
+            print("** class name missing **")
+        elif args in class_dict.keys():
+            counter = 0
+            for key in storage.all().keys():
+                if key.split(".")[0] == args:
+                    counter += 1
+            print(counter)
+        else:
+            print("** class doesn't exist **")
+
+    def default(self, args):
+        """ handles undefined commands """
+        argv = args.split(".")
+        if len(argv) == 2:
+            if argv[0] in class_dict.keys():
+                if argv[1] == "all()":
+                    self.do_all(argv[0])
+                    return
+                elif argv[1] == "count()":
+                    self.do_count(argv[0])
+                    return
+        print('*** Unknown syntax: {}'.format(args))
 
 
 if __name__ == "__main__":
