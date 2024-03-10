@@ -28,9 +28,21 @@ class HBNBCommand(cmd.Cmd):
     """Defines a command processor."""
 
     prompt = '(hbnb) '
-    file_path = 'file.json'
-    list_of_classes = ["BaseModel", "User", "State", "City",
-                       "Amenity", "Place", "Review"]
+
+    def do_quit(self, line):
+        """Quit command to exit the program."""
+        return True
+
+    def do_EOF(self, line):
+        """
+        Hook method that will be called when the user enters the end-of-file
+        character.
+        """
+        return True
+
+    def emptyline(self):
+        """Called when an empty line is entered."""
+        pass
 
     def do_create(self, args):
         """
@@ -139,21 +151,6 @@ class HBNBCommand(cmd.Cmd):
 
             setattr(db[key], args[2], args[3])
             db[key].save()
-
-    def do_EOF(self, line):
-        """
-        Hook method that will be called when the user enters the end-of-file
-        character.
-        """
-        return True
-
-    def emptyline(self):
-        """Called when an empty line is entered."""
-        pass
-
-    def do_quit(self, line):
-        """Quit command to exit the program."""
-        return True
 
 
 if __name__ == "__main__":
