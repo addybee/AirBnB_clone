@@ -13,6 +13,17 @@ from models.place import Place
 from models.review import Review
 
 
+class_dict = {
+        "BaseModel": BaseModel,
+        "User": User,
+        "State": State,
+        "City": City,
+        "Amenity": Amenity,
+        "Place": Place,
+        "Review": Review
+        }
+
+
 class HBNBCommand(cmd.Cmd):
     """Defines a command processor."""
 
@@ -28,9 +39,8 @@ class HBNBCommand(cmd.Cmd):
         """
         if not args:
             print("** class name missing **")
-        elif args in self.list_of_classes:
-            args = args.strip()
-            cls_name = globals()[args]
+        elif args in class_dict.keys():
+            cls_name = class_dict[args]
             obj = cls_name()
             obj.save()
             print(obj.id)
@@ -45,7 +55,7 @@ class HBNBCommand(cmd.Cmd):
         args = args.split(" ")
         if not args[0]:
             print("** class name missing **")
-        elif args[0] not in self.list_of_classes:
+        elif args[0] not in class_dict.keys():
             print("** class doesn't exist **")
         elif len(args) < 2:
             print("** instance id missing **")
@@ -64,7 +74,7 @@ class HBNBCommand(cmd.Cmd):
         args = args.split(" ")
         if not args[0]:
             print("** class name missing **")
-        elif args[0] not in self.list_of_classes:
+        elif args[0] not in class_dict.keys():
             print("** class doesn't exist **")
         elif len(args) < 2:
             print("** instance id missing **")
@@ -88,7 +98,7 @@ class HBNBCommand(cmd.Cmd):
             for obj in db.values():
                 list_all.append(str(obj))
         else:
-            if args not in self.list_of_classes:
+            if args not in class_dict.keys():
                 print("** class doesn't exist **")
             else:
                 for key, val in db.items():
@@ -109,7 +119,7 @@ class HBNBCommand(cmd.Cmd):
 
         if not args[0]:
             print("** class name missing **")
-        elif args[0] not in self.list_of_classes:
+        elif args[0] not in class_dict.keys():
             print("** class doesn't exist **")
         elif args_length < 2:
             print("** instance id missing **")
@@ -145,24 +155,6 @@ class HBNBCommand(cmd.Cmd):
         """Quit command to exit the program."""
         return True
 
-    def postloop(self):
-        """ print a newline character """
-        pass
 
-    """ def cmdloop(self):
-        """ entry_point to the interpreter """
-        try:
-            super().cmdloop()
-        except KeyboardInterrupt:
-            print("^D")   # Handle Ctrl+D gracefully """
-
-    def completedefault(self, text, line, begidx, endidx):
-        """Provide completion suggestions for unrecognized commands."""
-        commands = ['create', 'quit', 'help', 'show', 'destroy', 'update',
-                    'all']  # List of known commands
-        # Filter commands based on the prefix 'text'
-        return [cmd for cmd in commands if cmd.startswith(text)]
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     HBNBCommand().cmdloop()
