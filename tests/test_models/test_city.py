@@ -11,7 +11,7 @@ from models.city import City
 from models.base_model import BaseModel
 
 
-class TestUser(unittest.TestCase):
+class TestCity(unittest.TestCase):
     """ describes the test for User model """
     def setUp(self):
         """ initial setup before each test in TestBaseModel """

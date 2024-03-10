@@ -11,7 +11,7 @@ from models.review import Review
 from models.base_model import BaseModel
 
 
-class TestUser(unittest.TestCase):
+class TestReview(unittest.TestCase):
     """ describes the test for User model """
     def setUp(self):
         """ initial setup before each test in TestBaseModel """
