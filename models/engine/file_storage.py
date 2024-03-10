@@ -45,8 +45,9 @@ class FileStorage:
     def new(self, obj):
         """
         Add new object to the object dictionary
-        
-        obj: The object to be added.
+       
+        Args:
+            obj: The object to be added.
         """
         key = f"{type(obj).__name__}.{obj.id}"
         FileStorage.__objects[key] = obj
