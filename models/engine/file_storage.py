@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-""" defines a class FileStorage that serializes instances to a JSON file and
+"""
+    defines a class FileStorage that serializes instances to a JSON file and
     deserializes JSON file to instances
 """
 
@@ -27,18 +28,26 @@ class_dict = {
 
 
 class FileStorage:
-    """ serializes instances to a JSON file and deserializes JSON file to
-    instances """
+    """ serializes and deserializes instances of models """
 
     __file_path = "file.json"
     __objects = {}
 
     def all(self):
-        """ returns the dictionary __objects """
+        """
+        returns the dictionary of all object from models
+
+        Return:
+            dict: A dictionary of all objects.
+        """
         return self.__objects
 
     def new(self, obj):
-        """ sets in __objects the obj with key <obj class name>.id """
+        """
+        Add new object to the object dictionary
+        
+        obj: The object to be added.
+        """
         key = f"{type(obj).__name__}.{obj.id}"
         FileStorage.__objects[key] = obj
 
