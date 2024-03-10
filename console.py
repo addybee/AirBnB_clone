@@ -150,6 +150,7 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def cmdloop(self):
+        """ entry_point to the interpreter """
         try:
             super().cmdloop()
         except KeyboardInterrupt:
