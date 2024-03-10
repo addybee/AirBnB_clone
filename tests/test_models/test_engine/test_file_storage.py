@@ -24,7 +24,7 @@ class TestFileStorage(unittest.TestCase):
         if os.path.exists(self.file_path):
             os.remove(self.file_path)
 
-     def test_base_pep8(self):
+    def test_base_pep8(self):
         """ test for pep8(pycodestyle) compliance """
         pep8style = pep8.StyleGuide(quiet=True)
         result = pep8style.check_files(['./models/engine/file_storage.py'])
@@ -32,7 +32,7 @@ class TestFileStorage(unittest.TestCase):
 
     def test_docstring(self):
         """ test docstring in this current module """
-        self.assertIsNotNone(__import__("models.engine.file_storagel").__doc__)
+        self.assertIsNotNone(__import__("models.engine.file_storage").__doc__)
         self.assertIsNotNone(FileStorage.__doc__)
         self.assertIsNotNone(FileStorage.all.__doc__)
         self.assertIsNotNone(FileStorage.new.__doc__)

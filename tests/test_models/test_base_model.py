@@ -21,6 +21,10 @@ class TestBaseModel(unittest.TestCase):
         self.my_model.name = "My First Model"
         self.my_model.my_number = 89
 
+    def tearDown(self):
+        """ clean up after each test """
+        del self.my_model
+
     def test_base_pep8(self):
         """ test for pep8(pycodestyle) compliance """
         pep8style = pep8.StyleGuide(quiet=True)
@@ -44,7 +48,7 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsInstance(self.my_model.id, str)
         self.assertIsInstance(self.my_model.created_at, datetime)
         self.assertIsInstance(self.my_model.updated_at, datetime)
-    
+
     def test_from_dict_to_obj(self):
         """ test the conversion from dict to object(BaseModel) """
         new_dict = self.my_model.to_dict()

@@ -45,7 +45,7 @@ class FileStorage:
     def new(self, obj):
         """
         Add new object to the object dictionary
-       
+
         Args:
             obj: The object to be added.
         """
