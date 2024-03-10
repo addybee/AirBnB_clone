@@ -1,10 +1,12 @@
 #!/usr/bin/python3
 """Test file for FileStorage unit testing"""
-from models.base_model import BaseModel
-from models.engine.file_storage import FileStorage
+
+import pep8
 import unittest
 import os
 import json
+from models.base_model import BaseModel
+from models.engine.file_storage import FileStorage
 
 
 class TestFileStorage(unittest.TestCase):
@@ -21,6 +23,21 @@ class TestFileStorage(unittest.TestCase):
         """
         if os.path.exists(self.file_path):
             os.remove(self.file_path)
+
+     def test_base_pep8(self):
+        """ test for pep8(pycodestyle) compliance """
+        pep8style = pep8.StyleGuide(quiet=True)
+        result = pep8style.check_files(['./models/engine/file_storage.py'])
+        self.assertEqual(result.total_errors, 0)
+
+    def test_docstring(self):
+        """ test docstring in this current module """
+        self.assertIsNotNone(__import__("models.engine.file_storagel").__doc__)
+        self.assertIsNotNone(FileStorage.__doc__)
+        self.assertIsNotNone(FileStorage.all.__doc__)
+        self.assertIsNotNone(FileStorage.new.__doc__)
+        self.assertIsNotNone(FileStorage.save.__doc__)
+        self.assertIsNotNone(FileStorage.reload.__doc__)
 
     def test_fileStorageExixtence(self):
         """Tests for the existence of  FileStorage class"""
