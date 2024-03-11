@@ -12,7 +12,7 @@ from models.amenity import Amenity
 from models.base_model import BaseModel
 
 
-class TestState(unittest.TestCase):
+class TestAmenity(unittest.TestCase):
     """describes the test for Amenity model"""
     def setUp(self):
         """initial setup before each test in TestBaseModel"""
@@ -22,7 +22,7 @@ class TestState(unittest.TestCase):
         """clean up after each test"""
         del self.model
 
-     def test_base_pep8(self):
+    def test_base_pep8(self):
         """test for pep8(pycodestyle) compliance"""
         pep8style = pep8.StyleGuide(quiet=True)
         result = pep8style.check_files(['./models/amenity.py'])
