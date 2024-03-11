@@ -79,8 +79,7 @@ class HBNBCommand(cmd.Cmd):
         elif len(args) == 2 and not args[1]:
             print("** instance id missing **")
         else:
-
-            key = ".".join(args)
+            key = ".".join(args[:2]) 
             db = storage.all()
             if key in db.keys():
                 print(db[key])
@@ -131,6 +130,7 @@ class HBNBCommand(cmd.Cmd):
                         list_all.append(str(val))
         print(list_all)
 
+
     def do_update(self, args):
         """
         Updates an instance based on the class name and id by adding or
@@ -140,7 +140,7 @@ class HBNBCommand(cmd.Cmd):
         args_length = len(args)
         if args_length > 1:
             db = storage.all()
-            key = ".".join(args[:2])
+            key = "{}.{}".format(args[1])
 
         if not args[0]:
             print("** class name missing **")
