@@ -27,6 +27,21 @@ class_dict = {
         }
 
 
+def str_to_dict(arg):
+    """ convert string representation of dictionary to dictionary object """
+    argv = arg.split(', ')
+    mydict = {}
+    for value in argv:
+        key_value = value.split(": ")
+        for i in key_value:
+            if i.startswith('"') and i.endswith('"'):
+                i.strip('"')
+            elif i.startswith("'") and i.endswith("'"):
+                i.strip("'")
+        mydict[key_value[0]] = key_value[1]
+    return mydict
+
+
 class HBNBCommand(cmd.Cmd):
     """Defines a command processor."""
 
@@ -72,6 +87,9 @@ class HBNBCommand(cmd.Cmd):
 
         if argc == 2 and search(r'^"*[\w-]*"$', args[1]):
             args[1] = args[1].strip('"')
+        elif argc == 2 and search(r"^'.*'$", args[1]):
+            args[1] = args[1].strip("'")
+
         if not args[0]:
             print("** class name missing **")
         elif args[0] not in class_dict.keys():
@@ -94,8 +112,10 @@ class HBNBCommand(cmd.Cmd):
         args = args.split(" ")
         argc = len(args)
 
-        if argc == 2 and search(r'^"*[\w-]*"$', args[1]):
+        if argc == 2 and search(r'^"[\w-]*"$', args[1]):
             args[1] = args[1].strip('"')
+        elif argc == 2 and search(r"^'.*'$", args[1]):
+            args[1] = args[1].strip("'")
         if not args[0]:
             print("** class name missing **")
         elif args[0] not in class_dict.keys():
@@ -141,8 +161,11 @@ class HBNBCommand(cmd.Cmd):
 
         if args_length > 1:
             db = storage.all()
-            if search(r'^"*[\w-]*"$', args[1]):
+            if search(r'^"[\w-]*"$', args[1]):
                 args[1] = args[1].strip('"')
+            elif search(r"^'.*'$", args[1]):
+                args[1] = args[1].strip("'")
+
             key = ".".join(args[:2])
 
         if not args[0]:
@@ -162,10 +185,15 @@ class HBNBCommand(cmd.Cmd):
                 args[3] = float(args[3])
             elif search(r"^\d+$", args[3]):
                 args[3] = int(args[3])
-            elif search(r"^\"\w*\"$", args[3]):
+            elif search(r'^".*"$', args[3]):
                 args[3] = args[3].strip("\"")
-            if search(r"^\"\w*\"$", args[2]):
+            elif search(r"^'.*'$", args[3]):
+                args[3] = args[3].strip("'")
+
+            if search(r'^".*"$', args[2]):
                 args[2] = args[2].strip("\"")
+            elif search(r"^'.*'$", args[2]):
+                args[2] = args[2].strip("'")
 
             setattr(db[key], args[2], args[3])
             db[key].save()
@@ -200,7 +228,7 @@ class HBNBCommand(cmd.Cmd):
                 elif argv[1] == "count()":
                     self.do_count(argv[0])
                     return
-                elif search(r'^show\("[\w-]*"\)$', argv[1]):
+                elif search(r'^show\([\'"].*[\'"]\)$', argv[1]):
                     id = argv[1].strip('show(').strip(')')
                     name_id = "{} {}".format(argv[0], id)
                     self.do_show(name_id)
@@ -210,13 +238,21 @@ class HBNBCommand(cmd.Cmd):
                     name_id = "{} {}".format(argv[0], id)
                     self.do_destroy(name_id)
                     return
-                elif search(r'update\("*[\w-]*["\s,\w]*"*\)$', argv[1]):
-                        str_arg = argv[1].strip('update(').strip(')').split(", ")
-                        name = "{} {}".format(argv[0], " ".join(str_arg))
-                        self.do_update(name)
-                        return
+                elif search(r'^update\(([\'"].*[\'"])*\)', argv[1]):
+                    str_arg = argv[1].strip('update(').strip(')').split(", ")
+                    name = "{} {}".format(argv[0], " ".join(str_arg))
+                    self.do_update(name)
+                    return
+                elif search(r'^update\(["\'].*[\'"](,\s*{.*})?\)$', argv[1]):
+                    str_arg = argv[1].strip('update(').strip('})').split(", {")
+                    at_dict = str_to_dict(str_arg[1])
+                    name_id = argv[0] + " " + str_arg[0]
+                    for key, value in at_dict.items():
+                        name_to_val = "{} {} {}".format(name_id, key, value)
+                        self.do_update(name_to_val)
+                    return
             else:
-                if search(r'^show\("[\w-]*"\)$', argv[1]):
+                if search(r'^show\([\'"].*[\'"]\)$', argv[1]):
                     id = argv[1].strip('show("').strip('")')
                     name_id = "{} {}".format(argv[0], id)
                     self.do_show(name_id)
@@ -226,10 +262,18 @@ class HBNBCommand(cmd.Cmd):
                     name_id = "{} {}".format(argv[0], id)
                     self.do_destroy(name_id)
                     return
-                elif search(r'update\("*[\w-]*["\s,\w]*"*\)$', argv[1]):
+                elif search(r'^update\(([\'"].*[\'"])*\)', argv[1]):
                     str_arg = argv[1].strip('update(').strip(')').split(", ")
                     name = "{} {}".format(argv[0], " ".join(str_arg))
                     self.do_update(name)
+                    return
+                elif search(r'^update\(["\'].*[\'"](,\s*{.*})?\)$', argv[1]):
+                    str_arg = argv[1].strip('update(').strip('})').split(", {")
+                    at_dict = str_to_dict(str_arg[1])
+                    name_id = argv[0] + " " + str_arg[0]
+                    for key, value in at_dict.items():
+                        name_to_val = "{} {} {}".format(name_id, key, value)
+                        self.do_update(name_to_val)
                     return
 
         print('*** Unknown syntax: {}'.format(args))
