@@ -138,15 +138,18 @@ class HBNBCommand(cmd.Cmd):
         """
         args = args.split(" ")
         args_length = len(args)
+
         if args_length > 1:
             db = storage.all()
+            if search(r'^"*[\w-]*"$', args[1]):
+                args[1] = args[1].strip('"')
             key = ".".join(args[:2])
 
         if not args[0]:
             print("** class name missing **")
         elif args[0] not in class_dict.keys():
             print("** class doesn't exist **")
-        elif args_length < 2:
+        elif args_length < 2 or not args[1]:
             print("** instance id missing **")
         elif key not in db.keys():
             print("** no instance found **")
@@ -161,6 +164,8 @@ class HBNBCommand(cmd.Cmd):
                 args[3] = int(args[3])
             elif search(r"^\"\w*\"$", args[3]):
                 args[3] = args[3].strip("\"")
+            if search(r"^\"\w*\"$", args[2]):
+                args[2] = args[2].strip("\"")
 
             setattr(db[key], args[2], args[3])
             db[key].save()
@@ -205,6 +210,11 @@ class HBNBCommand(cmd.Cmd):
                     name_id = "{} {}".format(argv[0], id)
                     self.do_destroy(name_id)
                     return
+                elif search(r'update\("*[\w-]*["\s,\w]*"*\)$', argv[1]):
+                        str_arg = argv[1].strip('update(').strip(')').split(", ")
+                        name = "{} {}".format(argv[0], " ".join(str_arg))
+                        self.do_update(name)
+                        return
             else:
                 if search(r'^show\("[\w-]*"\)$', argv[1]):
                     id = argv[1].strip('show("').strip('")')
@@ -215,6 +225,11 @@ class HBNBCommand(cmd.Cmd):
                     id = argv[1].strip('destroy(').strip(')')
                     name_id = "{} {}".format(argv[0], id)
                     self.do_destroy(name_id)
+                    return
+                elif search(r'update\("*[\w-]*["\s,\w]*"*\)$', argv[1]):
+                    str_arg = argv[1].strip('update(').strip(')').split(", ")
+                    name = "{} {}".format(argv[0], " ".join(str_arg))
+                    self.do_update(name)
                     return
 
         print('*** Unknown syntax: {}'.format(args))
