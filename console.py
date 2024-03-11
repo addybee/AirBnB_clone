@@ -97,8 +97,7 @@ class HBNBCommand(cmd.Cmd):
         elif len(args) == 2 and not args[1]:
             print("** instance id missing **")
         else:
-
-            key = ".".join(args)
+            key = ".".join(args[:2]) 
             db = storage.all()
             if key in db.keys():
                 print(db[key])
@@ -150,6 +149,7 @@ class HBNBCommand(cmd.Cmd):
                     if key.split(".")[0] == args:
                         list_all.append(str(val))
         print(list_all)
+
 
     def do_update(self, args):
         """
