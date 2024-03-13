@@ -93,7 +93,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
         elif args[0] not in class_dict.keys():
             print("** class doesn't exist **")
-        elif argc < 2 :
+        elif argc < 2:
             print("** instance id missing **")
         else:
             key = ".".join(args[:2])
