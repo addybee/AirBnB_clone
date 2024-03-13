@@ -84,7 +84,6 @@ class HBNBCommand(cmd.Cmd):
         """
         args = args.split(" ")
         argc = len(args)
-
         if argc == 2 and search(r'^"*[\w-]*"$', args[1]):
             args[1] = args[1].strip('"')
         elif argc == 2 and search(r"^'.*'$", args[1]):
@@ -94,10 +93,10 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
         elif args[0] not in class_dict.keys():
             print("** class doesn't exist **")
-        elif len(args) == 2 and not args[1]:
+        elif argc < 2 :
             print("** instance id missing **")
         else:
-            key = ".".join(args[:2]) 
+            key = ".".join(args[:2])
             db = storage.all()
             if key in db.keys():
                 print(db[key])
@@ -149,7 +148,6 @@ class HBNBCommand(cmd.Cmd):
                     if key.split(".")[0] == args:
                         list_all.append(str(val))
         print(list_all)
-
 
     def do_update(self, args):
         """
