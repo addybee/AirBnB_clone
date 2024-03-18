@@ -1,0 +1,28 @@
+/* section Filter style */
+.filters {
+    background: #FFFFFF;
+    height: 70px;
+    width: 100%;
+    border: 1px #DDDDDD;
+    border-radius: 4px;
+    border-style: solid;
+    position: relative;
+}
+
+/* style Search button */
+.btn {
+    font-size: 18px;
+    background: #FF5A5F;
+    color: #FFFFFF;
+    height: 48px;
+    width: 20%;
+    border: none;
+    border-radius: 4px;
+    position: absolute;
+    right: 30px;
+    top: 11px;
+}
+
+.btn:hover {
+    opacity: 90%;
+}
