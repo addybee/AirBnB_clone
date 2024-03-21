@@ -3,7 +3,7 @@
 .places {
     font-size: 30px;
     text-align: center;
-    position: relative;
+    /* position: relative; */
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -53,6 +53,7 @@
     border-bottom: 1px solid #DDDDDD;
     position: relative;
     display: flex;
+    flex: 1 1 auto;
     justify-content: space-evenly;
 }
 
