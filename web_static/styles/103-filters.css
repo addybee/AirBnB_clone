@@ -1,0 +1,106 @@
+/* section Filter style */
+.filters {
+    background: hsl(0, 0%, 100%);
+    height: 70px;
+    width: 100%;
+    border: 1px #DDDDDD;
+    border-radius: 4px;
+    border-style: solid;
+    position: relative;
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+}
+
+/* style Search button */
+.btn {
+    font-size: 18px;
+    background: #FF5A5F;
+    color: #FFFFFF;
+    height: 48px;
+    width: 20%;
+    border: none;
+    border-radius: 4px;
+    margin-right: 30px;
+    margin-left: auto;
+}
+
+.btn:hover {
+    opacity: 90%;
+}
+
+/* style location and amenities */
+.amenities,
+.locations {
+    height: 100%;
+    width: 25%;
+}
+
+.locations {
+    border-right: 1px solid #DDDDDD;
+}
+
+
+.amenities h3,
+.locations h3 {
+    font-weight: 600;
+    box-sizing: border-box;
+    margin-top: 0;
+    margin-bottom: 0;
+    width: 100%;
+    max-width: 40px;
+    padding-top: 10%;
+    padding-left: 30%;
+}
+
+.amenities h4,
+.locations h4 {
+    font-weight: 400;
+    font-size: 14px;
+    box-sizing: border-box;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 30%;
+    width: 100%;
+    margin: 0 auto 7px;
+    max-height: 30px;
+}
+ 
+/* 
+    contextual dropdown styling
+*/
+.popover {
+    background: #FAFAFA;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: 30%;
+    margin-top: 0%;
+    z-index: 1;
+    display: none;
+    position: relative;
+}
+
+.popover,
+.popover ul {
+    list-style-type: none;
+}
+
+.popover ul {
+    padding-left: 10%;
+    font-size: 14px;
+    box-sizing: border-box;
+    width: 100%;
+    display: inline-block;
+}
+.popover h2 {
+    font-size: 16px;
+    box-sizing: border-box;
+    display: inline-block;
+    width: 100%;
+}
+.locations:hover .popover,
+.amenities:hover .popover{
+    display: inline-block;
+}
